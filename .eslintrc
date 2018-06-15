@@ -1,25 +1,56 @@
 {
-  "extends": "airbnb",
   "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
   "env": {
-    "browser": true,
-    "node": true,
-    "mocha": true,
-    "es6": true
+    "browser": true
   },
+  "extends": "airbnb",
   "rules": {
-    "space-before-function-paren": "off",
-    "react/prefer-stateless-function": "warn",
+    "indent": ["error", 4, { "SwitchCase": 1 }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "object-curly-spacing": ["error", "never"],
+    "react/jsx-indent": ["error", 4],
+    "no-trailing-spaces": "off",
+    "padded-blocks": "off",
+    "arrow-body-style": ["error", "as-needed"],
+    "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
+    "func-names": "off",
+    "space-before-function-paren": ["error", "never"],
+    "react/jsx-boolean-value": "off",
+    "react/self-closing-comp": "off",
+    "react/prefer-stateless-function": "off",
+    "eol-last": "off",
+    "react/sort-comp": "off",
+    "react/no-render-return-value": "off",
+    "react/prop-types": [0],
+    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-no-target-blank": "off",
+    "max-len": ["error", 130],
+    "comma-dangle": ["error", "never"],
+    "react/no-array-index-key": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "no-console": "off",
     "linebreak-style": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+    "arrow-parens": ["error", "always"],
+    "import/prefer-default-export": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "no-underscore-dangle": "off",
+    "no-confusing-arrow": "off",
+    "prefer-template": "off",
     "global-require": "off",
-    "semi": "warn",
-    "arrow-body-style": "off"
+    "no-shadow": "off",
+    "no-mixed-operators": "off",
+    "class-methods-use-this": "off",
+    "new-parens": "off",
+    "no-use-before-define": "off",
+    "no-extra-boolean-cast": "off",
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
+    "no-throw-literal": "off",
+    "react/forbid-prop-types": "off"
   }
 }
