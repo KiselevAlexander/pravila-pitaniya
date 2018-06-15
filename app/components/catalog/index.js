@@ -1,24 +1,34 @@
 import React from 'react';
 import Product from 'components/catalog/product';
-
-
-const PRODUCTS = [
-    {
-        name: 'cherry',
-        price: 100,
-        unit: 'kg',
-        image: ''
-    }
-];
+import {request} from 'utils';
+import {Container} from 'semantic-ui-react';
 
 
 class Catalog extends React.Component {
+
+    state = {
+        isFetch: true,
+        products: []
+    };
+
+    componentDidMount() {
+        request.get('/data/products.json')
+            .then((products) => {
+                this.setState({products, isFetch: false});
+            });
+    }
+
     render() {
+
+        const {products, isFetch} = this.state;
+
         return (
-            <div className="catalog">
+            <Container className="catalog">
                 <h1>Catalog</h1>
+
+                {isFetch && 'Loading...'}
                 {
-                    PRODUCTS.map((product, key) => (
+                    products.map((product, key) => (
                         <Product
                             key={key}
                             name={product.name}
@@ -28,7 +38,7 @@ class Catalog extends React.Component {
                         />
                     ))
                 }
-            </div>
+            </Container>
         );
     }
 }

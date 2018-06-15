@@ -25,13 +25,10 @@ class Product extends React.Component {
         } = this.props;
 
         return (
-            <div className="catalog-product">
-                {image &&
-                    <img
-                        src={image}
-                        alt={name}
-                    />
-                }
+            <div
+                className="catalog-product"
+                style={{backgroundImage: `url(${image})`}}
+            >
                 {name}
                 {price}/{unit}
                 Product
