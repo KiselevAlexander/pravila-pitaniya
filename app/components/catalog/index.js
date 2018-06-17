@@ -1,7 +1,9 @@
 import React from 'react';
 import Product from 'components/catalog/product';
 import {request} from 'utils';
-import {Container} from 'semantic-ui-react';
+import {Container, Grid} from 'semantic-ui-react';
+import 'assets/scss/components/catalog.scss';
+import 'assets/scss/components/catalogCategory.scss';
 
 
 class Catalog extends React.Component {
@@ -12,9 +14,9 @@ class Catalog extends React.Component {
     };
 
     componentDidMount() {
-        request.get('/data/products.json')
+        request.get('http://localhost/data/?type=products')
             .then((products) => {
-                this.setState({products, isFetch: false});
+                this.setState({products: products.products, isFetch: false});
             });
     }
 
@@ -24,20 +26,33 @@ class Catalog extends React.Component {
 
         return (
             <Container className="catalog">
-                <h1>Catalog</h1>
-
                 {isFetch && 'Loading...'}
-                {
-                    products.map((product, key) => (
-                        <Product
-                            key={key}
-                            name={product.name}
-                            price={product.price}
-                            unit={product.unit}
-                            image={product.image}
-                        />
-                    ))
-                }
+                {products.map((category, key) => (
+                    <div className="catalogCategory" key={key}>
+                        <Grid columns={1} padded={false} relaxed={false}>
+                            <Grid.Column>
+                                <div className="catalogCategory-name">{category.name}</div>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Grid columns={5} stackable>
+                                    {
+                                        category.items.map((product, key) => (
+                                            <Grid.Column key={key}>
+                                                <Product
+                                                    name={product.name}
+                                                    price={product.price}
+                                                    unit={product.unit}
+                                                    image={product.image}
+                                                    unitCount={product.unitCount}
+                                                />
+                                            </Grid.Column>
+                                        ))
+                                    }
+                                </Grid>
+                            </Grid.Column>
+                        </Grid>
+                    </div>
+                ))}
             </Container>
         );
     }

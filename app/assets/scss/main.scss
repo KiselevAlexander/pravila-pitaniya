@@ -1,4 +1,6 @@
+@import "variables";
 $color: #262828;
+@import '~react-toastify/dist/ReactToastify.css';
 
 html, body {
   padding: 0;
@@ -6,6 +8,16 @@ html, body {
 }
 
 body {
-  background-color: #efefef;
-  padding-top: 3.5em;
+  padding-top: 10em;
+}
+
+.relative {
+  position: relative;
+}
+
+
+.mb {
+  &60 {
+    margin-bottom: 3.125em;
+  }
 }

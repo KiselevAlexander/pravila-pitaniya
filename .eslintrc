@@ -51,6 +51,11 @@
     "no-extra-boolean-cast": "off",
     "no-unused-expressions": ["error", { "allowShortCircuit": true }],
     "no-throw-literal": "off",
-    "react/forbid-prop-types": "off"
+    "react/forbid-prop-types": "off",
+    "jsx-a11y/anchor-is-valid": ["error", {
+      "components": ["Link"],
+      "specialLink": ["to", "hrefLeft", "hrefRight"],
+      "aspects": ["noHref", "invalidHref", "preferButton"]
+    }]
   }
 }

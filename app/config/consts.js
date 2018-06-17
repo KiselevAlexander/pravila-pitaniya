@@ -1,5 +1,8 @@
 export const UNITS = {
-    kg: 'kg'
+    kg: 'кг',
+    gr: 'гр',
+    units: 'ед.',
+    bundle: 'пучок'
 };
 
 export const ERROR_TYPES = {
@@ -13,3 +16,5 @@ export const ERROR_TYPES = {
     UNKNOWN: 'unknown',
     SERVICE_UNAVAILABLE: 'service_unavailable'
 };
+
+export const ADMIN_PASSWORD = '123';

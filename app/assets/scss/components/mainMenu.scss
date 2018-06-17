@@ -1,17 +1,25 @@
+@import "../variables";
+
 .mainMenu {
+  position: relative;
+  z-index: 2;
 
-  ul {
-    list-style-type: none;
+  @media (max-width: 768px) {
+    display: none !important;
+  }
 
-    li {
 
-      a {
-        text-decoration: none;
+  a {
+    text-decoration: none;
+    color: $color-brown;
 
-      }
-
+    &:hover {
+      color: $color-brownDark;
     }
+  }
 
+  .phone {
+    font-size: 1.5em;
   }
 
 }

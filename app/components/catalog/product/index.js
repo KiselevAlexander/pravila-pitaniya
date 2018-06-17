@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'assets/scss/components/product.scss';
+import {UNITS} from 'config/consts';
 
 
 class Product extends React.Component {
@@ -8,6 +9,7 @@ class Product extends React.Component {
     static propTypes = {
         name: PropTypes.string,
         price: PropTypes.number,
+        unitCount: PropTypes.number,
         unit: PropTypes.string,
         image: PropTypes.string
     };
@@ -15,23 +17,24 @@ class Product extends React.Component {
     static defaultProps = {
         name: '',
         price: 0,
+        unitCount: null,
         unit: '',
         image: ''
     };
 
     render() {
         const {
-            name, price, unit, image
+            name, price, unit, image,
+            unitCount
         } = this.props;
 
         return (
             <div
-                className="catalog-product"
+                className="catalogProduct"
                 style={{backgroundImage: `url(${image})`}}
             >
-                {name}
-                {price}/{unit}
-                Product
+                <div className="catalogProduct-name">{name}</div>
+                <div className="catalogProduct-price">{price}₽ / {unitCount}{UNITS[unit]}</div>
             </div>
         );
     }
