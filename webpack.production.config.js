@@ -1,4 +1,4 @@
-const {resolve} = require('path');
+const {resolve, join} = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -41,7 +41,11 @@ const config = {
     ],
 
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        modules: [join(__dirname, 'app'), 'node_modules'],
+        alias: {
+            '../../theme.config$': join(__dirname, 'app/assets/theme/theme.config')
+        }
     },
 
     module: {
@@ -125,6 +129,28 @@ const config = {
                         }
                     }
                 ]
+            },
+            // LESS
+            {
+                test: /\.less$/,
+                use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+                    fallback: [ {
+                        loader: 'style-loader'
+                    }],
+                    use: ['css-loader', 'resolve-url-loader', 'less-loader']
+                }))
+            },
+            // FONTS
+            {
+                test: /\.(woff|woff2|ttf|svg|eot)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10240,
+                        name: 'fonts/[name]-[hash:7].[ext]'
+                    }
+                },
+                include: [join(__dirname, 'src'), /[/\\]node_modules[/\\]semantic-ui-less[/\\]/]
             }
         ]
     }

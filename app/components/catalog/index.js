@@ -4,6 +4,7 @@ import {request} from 'utils';
 import {Container, Grid} from 'semantic-ui-react';
 import 'assets/scss/components/catalog.scss';
 import 'assets/scss/components/catalogCategory.scss';
+import {API_URLS} from 'config/consts';
 
 
 class Catalog extends React.Component {
@@ -14,7 +15,7 @@ class Catalog extends React.Component {
     };
 
     componentDidMount() {
-        request.get('http://localhost/data/?type=products')
+        request.get(API_URLS.PRODUCTS)
             .then((products) => {
                 this.setState({products: products.products, isFetch: false});
             });
@@ -40,10 +41,10 @@ class Catalog extends React.Component {
                                             <Grid.Column key={key}>
                                                 <Product
                                                     name={product.name}
-                                                    price={product.price}
+                                                    price={parseFloat(product.price)}
                                                     unit={product.unit}
                                                     image={product.image}
-                                                    unitCount={product.unitCount}
+                                                    unitCount={(product.unitCount) ? parseFloat(product.unitCount) : ''}
                                                 />
                                             </Grid.Column>
                                         ))

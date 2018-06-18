@@ -6,6 +6,7 @@ import IndexPage from 'components/index-page';
 import DeliveryPage from 'components/delivery';
 import ContactsPage from 'components/contacts';
 import AdminPanel from 'components/admin';
+import AboutPage from 'components/about';
 import {ToastContainer} from 'react-toastify';
 
 import 'semantic-ui-less/definitions/globals/reset.less';
@@ -20,6 +21,7 @@ export const RootComponent = () => (
             <Route path="/" component={IndexPage} exact />
             <Route path="/delivery" component={DeliveryPage} exact />
             <Route path="/contacts" component={ContactsPage} exact />
+            <Route path="/about" component={AboutPage} exact />
             <Route path="/admin" component={AdminPanel} exact />
         </Switch>
 

@@ -13,7 +13,8 @@ class ProductForm extends React.Component {
         if (newProps.isOpen !== this.props.isOpen) {
 
             this.setState({
-                product: newProps.product
+                product: newProps.product,
+                isNew: newProps.productKey === -1
             });
         }
     }
@@ -111,7 +112,7 @@ class ProductForm extends React.Component {
                 </Modal.Content>
                 <Modal.Actions>
                     <Button
-                        content="Сохранить"
+                        content={(isNew) ? 'Добавить' : 'Сохранить'}
                         basic
                         onClick={this.submitForm}
                     />

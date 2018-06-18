@@ -1,9 +1,11 @@
+import _ from 'lodash';
 import React from 'react';
 import {request} from 'utils';
 import {toast} from 'react-toastify';
 import {Container, Table, Button} from 'semantic-ui-react';
-import {UNITS} from 'config/consts';
-import ProductForm from './product-form';
+import {API_URLS, UNITS} from 'config/consts';
+import CategoryForm from 'components/admin/products/category-form';
+import ProductForm from 'components/admin/products/product-form';
 
 class Catalog extends React.Component {
 
@@ -11,9 +13,14 @@ class Catalog extends React.Component {
         isFetch: true,
         products: [],
         isEditProductOpen: false,
+        isEditCategoryOpen: false,
         editProduct: {
             category: -1,
             product: {}
+        },
+        editCategory: {
+            categoryKey: -1,
+            category: {}
         }
     };
 
@@ -23,7 +30,7 @@ class Catalog extends React.Component {
 
     applyChanges = (e) => {
         e.preventDefault();
-        request.post('http://localhost/datasaver.php', {
+        request.post(API_URLS.SAVER, {
             products: this.state.products
         })
             .then(() => {
@@ -36,8 +43,7 @@ class Catalog extends React.Component {
 
     requestData = () => {
         this.setState({isFetch: true});
-
-        request.get('http://localhost/data/?type=products')
+        request.get(API_URLS.PRODUCTS)
             .then((data) => {
                 this.setState({products: data.products, isFetch: false});
             })
@@ -75,6 +81,15 @@ class Catalog extends React.Component {
             products: state.products.map((category, key) => {
 
                 if (key === editProduct.category) {
+                    if (editProduct.productKey === -1) {
+                        return {
+                            ...category,
+                            items: [
+                                ...category.items,
+                                product
+                            ]
+                        };
+                    }
                     return {
                         ...category,
                         items: category.items.map((i, iKey) => {
@@ -90,6 +105,47 @@ class Catalog extends React.Component {
 
             })
         }));
+    };
+
+    onSubmitCategoryForm = (editedCategory) => {
+
+        const {editCategory} = this.state;
+
+        if (editCategory.categoryKey === -1) {
+            this.setState((state) => ({
+                isEditCategoryOpen: false,
+                editCategory: {
+                    categoryKey: -1,
+                    category: {
+                        name: ''
+                    }
+                },
+                products: [
+                    ...state.products,
+                    {
+                        ...editedCategory,
+                        items: []
+                    }
+                ]
+            }));
+        } else {
+            this.setState((state) => ({
+                isEditCategoryOpen: false,
+                editCategory: {
+                    category: -1
+                },
+                products: state.products.map((category, key) => {
+                    if (key === editCategory.categoryKey) {
+                        return {
+                            ...category,
+                            ...editedCategory
+                        };
+                    }
+                    return category;
+                })
+            }));
+        }
+
     };
 
     resetFormClickHandler = (e) => {
@@ -109,10 +165,53 @@ class Catalog extends React.Component {
         });
     };
 
+    newItemClickHandler = (e, cKey) => {
+        e.preventDefault();
+        this.setState({
+            isEditProductOpen: true,
+            editProduct: {
+                category: cKey,
+                productKey: -1,
+                product: {}
+            }
+        });
+    };
+
+    addCategoryClickHandler = () => {
+        this.setState({
+            isEditCategoryOpen: true,
+            editCategory: {
+                categoryKey: -1,
+                category: {
+                    name: ''
+                }
+            }
+        });
+    };
+
+    editCategoryClickHandler = (e, cKey, category) => {
+        e.preventDefault();
+        this.setState({
+            isEditCategoryOpen: true,
+            editCategory: {
+                categoryKey: cKey,
+                category: _.omit(category, ['items'])
+            }
+        });
+    };
+
+    removeCategoryClickHandler = (e, cKey) => {
+        e.preventDefault();
+        this.setState({
+            products: this.state.products.filter((i, k) => k !== cKey)
+        });
+    };
+
     render() {
 
         const {
-            products, isFetch, isEditProductOpen, editProduct
+            products, isFetch, isEditProductOpen, editProduct,
+            isEditCategoryOpen, editCategory
         } = this.state;
 
         return (
@@ -124,6 +223,7 @@ class Catalog extends React.Component {
                         content="Добавить категорию"
                         basic
                         color="green"
+                        onClick={this.addCategoryClickHandler}
                     />
                     <Table celled selectable>
                         <Table.Header>
@@ -151,9 +251,24 @@ class Catalog extends React.Component {
                                     <Table.Cell colSpan={5}>
                                         <b>{category.name}</b>
                                         <div style={{float: 'right'}}>
-                                            <a href="#фadd_item">Добавить товар</a>&nbsp;&nbsp;
-                                            <a href="#edit">Редактировать</a>&nbsp;&nbsp;
-                                            <a href="#delete">Удалить</a>
+                                            <a
+                                                href="#фadd_item"
+                                                onClick={(e) => this.newItemClickHandler(e, cKey)}
+                                            >
+                                                Добавить товар
+                                            </a>&nbsp;&nbsp;
+                                            <a
+                                                href="#edit"
+                                                onClick={(e) => this.editCategoryClickHandler(e, cKey, category)}
+                                            >
+                                                Редактировать
+                                            </a>&nbsp;&nbsp;
+                                            <a
+                                                href="#delete"
+                                                onClick={(e) => this.removeCategoryClickHandler(e, cKey)}
+                                            >
+                                                Удалить
+                                            </a>
                                         </div>
                                     </Table.Cell>
                                 </Table.Row>,
@@ -197,20 +312,32 @@ class Catalog extends React.Component {
                         content="Применить изменения"
                         basic
                         onClick={this.applyChanges}
+                        color="blue"
                     />
                     <Button
                         content="Сбросить"
                         onClick={this.resetFormClickHandler}
                         basic
+                        color="red"
                     />
                 </div>
                 }
                 <ProductForm
                     isOpen={isEditProductOpen}
                     product={editProduct.product}
+                    productKey={editProduct.productKey}
                     onSubmit={this.onSubmitProductForm}
                     onClose={() => {
                         this.setState({isEditProductOpen: false});
+                    }}
+                />
+                <CategoryForm
+                    isOpen={isEditCategoryOpen}
+                    category={editCategory.category}
+                    categoryKey={editCategory.categoryKey}
+                    onSubmit={this.onSubmitCategoryForm}
+                    onClose={() => {
+                        this.setState({isEditCategoryOpen: false});
                     }}
                 />
             </Container>

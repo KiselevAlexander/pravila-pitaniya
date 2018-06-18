@@ -15,11 +15,14 @@ export const Header = ({children}) => (
                     <Link to="/">Продукция</Link>
                 </Menu.Item>
                 <Menu.Item>
-                    <Link to="/delivery">Доставка</Link>
+                    <Link to="/about">О нас</Link>
                 </Menu.Item>
-                <Menu.Item>
-                    <Link to="/contacts">Контакты</Link>
-                </Menu.Item>
+                {/* <Menu.Item> */}
+                {/* <Link to="/delivery">Доставка</Link> */}
+                {/* </Menu.Item> */}
+                {/* <Menu.Item> */}
+                {/* <Link to="/contacts">Контакты</Link> */}
+                {/* </Menu.Item> */}
 
                 <Menu.Menu position="right">
                     <Menu.Item>
@@ -27,7 +30,7 @@ export const Header = ({children}) => (
                             <span className="phone">+7 (918) 143-83-03</span>
                         </a>
                     </Menu.Item>
-                    <Menu.Item>
+                    <Menu.Item className="instagram">
                         <InstagramLink />
                     </Menu.Item>
                 </Menu.Menu>
@@ -35,12 +38,12 @@ export const Header = ({children}) => (
         </Container>
         <div className="logo-shadow" />
         <div className="logo">
-            <a href="/">
+            <Link to="/">
                 <img
                     src={logoSrc}
                     alt="Правила питания"
                 />
-            </a>
+            </Link>
         </div>
         {children}
     </header>

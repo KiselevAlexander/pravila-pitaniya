@@ -5,7 +5,9 @@
   z-index: 2;
 
   @media (max-width: 768px) {
-    display: none !important;
+    .item:not([class$='instagram']) {
+      display: none !important;
+    }
   }
 
 
