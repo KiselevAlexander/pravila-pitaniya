@@ -21,7 +21,7 @@ const LoginForm = ({password, onChange}) => (
 class AdminPanel extends React.Component {
 
     isAuth = () => {
-        const isStoredAuth = cacheManager.getItem('isAuth', true);
+        const isStoredAuth = cacheManager.getItem('isAuth');
         return isStoredAuth || false;
     };
 
@@ -37,7 +37,7 @@ class AdminPanel extends React.Component {
         });
 
         if (value === ADMIN_PASSWORD) {
-            cacheManager.setItem('isAuth', true, 3600);
+            cacheManager.setItem('isAuth', true, 3600000);
         }
     };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Product from 'components/catalog/product';
 import {request} from 'utils';
-import {Container, Grid} from 'semantic-ui-react';
+import {Container, Grid, Dimmer, Loader} from 'semantic-ui-react';
 import 'assets/scss/components/catalog.scss';
 import 'assets/scss/components/catalogCategory.scss';
 import {API_URLS} from 'config/consts';
@@ -26,8 +26,11 @@ class Catalog extends React.Component {
         const {products, isFetch} = this.state;
 
         return (
-            <Container className="catalog">
-                {isFetch && 'Loading...'}
+            <Container className="catalog relative">
+
+                <Dimmer active={isFetch} inverted blurring>
+                    <Loader active={true} />
+                </Dimmer>
                 {products.map((category, key) => (
                     <div className="catalogCategory" key={key}>
                         <Grid columns={1} padded={false} relaxed={false}>
